@@ -21,13 +21,15 @@
 		<h:panelGroup id="deleteCategory">
 			<h2>Usuń instancję kategorii</h2>
 			<h:form>
+				<h:selectOneMenu value="#{deleteCategory.categoryTypeId}">
+					<f:selectItems value="#{deleteCategory.categoryTypes}" />
+					<f:ajax listener="#{deleteCategory.categoryTypeChanged}" render="deleteCategory" />
+				</h:selectOneMenu>
 				<h:selectOneMenu value="#{deleteCategory.categoryId}">
 					<f:selectItems value="#{deleteCategory.categories}" />
 				</h:selectOneMenu>
 				<h:commandButton action="#{deleteCategory.submit()}"
-					value="Usuń instancję kategorii">
-					<f:ajax execute="@form" render="@all" />
-				</h:commandButton>
+					value="Usuń instancję kategorii"/>
 			</h:form>
 		</h:panelGroup>
 	</div>

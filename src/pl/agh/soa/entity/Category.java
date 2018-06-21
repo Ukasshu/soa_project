@@ -20,23 +20,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "categories")
-@NamedQueries({
-	@NamedQuery(name=Category.ALL, query="SELECT c From Category c"),
-	@NamedQuery(name=Category.BY_TYPE, query="SELECT c From Category c WHERE c.categoryType.id=:categoryTypeId"),
-	@NamedQuery(name=Category.BY_USERNAME, query="SELECT c From Category c WHERE c.owner=:username"),
-	@NamedQuery(name=Category.BY_USERNAME_AND_TYPE, query="SELECT c From Category c WHERE c.owner=:username AND c.categoryType.id=:categoryTypeId"),
-	@NamedQuery(name=Category.DELETE_BY_ID, query="DELETE FROM Category c WHERE c.id=:id"),
-	@NamedQuery(name=Category.DELETE_BY_CATEGORY_TYPE_ID, query="DELETE FROM Category c WHERE c.categoryType.id=:categoryTypeId"),
-})
+@NamedQueries({ @NamedQuery(name = Category.ALL, query = "SELECT c From Category c"),
+		@NamedQuery(name = Category.BY_TYPE, query = "SELECT c From Category c WHERE c.categoryType.id=:categoryTypeId"),
+		@NamedQuery(name = Category.BY_USERNAME, query = "SELECT c From Category c WHERE c.owner=:username"),
+		@NamedQuery(name = Category.BY_USERNAME_AND_TYPE, query = "SELECT c From Category c WHERE c.owner=:username AND c.categoryType.id=:categoryTypeId") })
 public class Category implements Serializable {
-	
+
 	public static final String ALL = "Category.All";
 	public static final String BY_TYPE = "Category.ByType";
 	public static final String BY_USERNAME = "Category.ByUsername";
 	public static final String BY_USERNAME_AND_TYPE = "Category.ByUsernameAndType";
-	
-	public static final String DELETE_BY_ID = "Category.DeleteById";
-	public static final String DELETE_BY_CATEGORY_TYPE_ID = "Category.DeleteByCategoryTypeId";
 
 	private Integer id;
 	private int data;
@@ -50,7 +43,7 @@ public class Category implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="categoryID")
+	@Column(name = "categoryID")
 	public Integer getId() {
 		return this.id;
 	}
@@ -75,8 +68,8 @@ public class Category implements Serializable {
 		this.owner = owner;
 	}
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="categoryTypeId")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryTypeId")
 	public CategoryType getCategoryType() {
 		return categoryType;
 	}

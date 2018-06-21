@@ -25,11 +25,7 @@ import javax.persistence.Table;
 	@NamedQuery(name=Element.BY_CATEGORY_ID, query="SELECT e FROM Element e WHERE e.category.id=:categoryId"),
 	@NamedQuery(name=Element.BY_CATEGORY_TYPE_ID, query="SELECT e FROM Element e WHERE e.category.categoryType.id=:categoryTypeId"),
 	@NamedQuery(name=Element.BY_USERNAME, query="SELECT e FROM Element e WHERE e.category.owner=:username"),
-	@NamedQuery(name=Element.BY_CATEGORY_TYPE_ID_AND_USERNAME, query="SELECT e FROM Element e WHERE e.category.id=:categoryId AND e.category.owner=:username"),
-	@NamedQuery(name=Element.DELETE_BY_ID, query="DELETE FROM Element e WHERE e.id=:id"),
-	@NamedQuery(name=Element.DELETE_BY_CATEGORY_ID, query="DELETE FROM Element e WHERE e.category.id=:categoryId"),
-	@NamedQuery(name=Element.DELETE_BY_CATEGORY_TYPE_ID, query="DELETE FROM Element e WHERE e.category.categoryType.id=:categoryTypeId")
-	
+	@NamedQuery(name=Element.BY_CATEGORY_TYPE_ID_AND_USERNAME, query="SELECT e FROM Element e WHERE e.category.id=:categoryId AND e.category.owner=:username")
 })
 public class Element implements Serializable {
 	
@@ -38,10 +34,6 @@ public class Element implements Serializable {
 	public static final String BY_CATEGORY_TYPE_ID = "Element.ByCategoryTypeId";
 	public static final String BY_USERNAME = "Element.Username";
 	public static final String BY_CATEGORY_TYPE_ID_AND_USERNAME = "Element.ByCategoryTypeIdAndUsername";
-	
-	public static final String DELETE_BY_ID = "Element.DeleteById";
-	public static final String DELETE_BY_CATEGORY_ID = "Element.DeleteByCategoryId";
-	public static final String DELETE_BY_CATEGORY_TYPE_ID = "Element.DeleteByCategoryTypeId";
 	
 	
 	private Integer id;

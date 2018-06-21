@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
 import pl.agh.soa.entity.Element;
@@ -32,11 +31,11 @@ public class ElementService implements Serializable{
 		return em.find(Element.class, id);
 	}
 	
-	public List<Element> getElementsByCategoryTypeId(String typeId){
+	public List<Element> getElementsByCategoryTypeId(Integer typeId){
 		return em.createNamedQuery(Element.BY_CATEGORY_TYPE_ID, Element.class).setParameter("categoryTypeId", typeId).getResultList();
 	}
 	
-	public List<Element> getElementsByCategoryId(String catId) {
+	public List<Element> getElementsByCategoryId(Integer catId) {
 		return em.createNamedQuery(Element.BY_CATEGORY_ID, Element.class).setParameter("categoryId", catId).getResultList();
 	}
 	
@@ -44,17 +43,17 @@ public class ElementService implements Serializable{
 		return em.createNamedQuery(Element.BY_USERNAME, Element.class).setParameter("username", username).getResultList();
 	}
 	
-	public List<Element> getElementsByCategoryTypeIdAndUsername(String typeId, String username){
+	public List<Element> getElementsByCategoryTypeIdAndUsername(Integer typeId, Integer username){
 		return em.createNamedQuery(Element.BY_CATEGORY_TYPE_ID_AND_USERNAME, Element.class).setParameter("categoryTypeId", typeId).setParameter("username", username).getResultList();
 	}
 	
-	public void deleteById(String id) {
+	public void deleteById(Integer id) {
 		try {
-			Query query = em.createNamedQuery(Element.DELETE_BY_ID).setParameter("id", id);
+			Element element = findElement(id);
 	
 			utx.begin();
 			
-			query.executeUpdate();
+			em.remove(em.merge(element));
 			
 			utx.commit();
 		}catch(Exception e) {
@@ -67,43 +66,6 @@ public class ElementService implements Serializable{
 		}
 	}
 	
-	public void deleteByCategoryId(String catId) {
-		try {
-			Query query = em.createNamedQuery(Element.DELETE_BY_ID).setParameter("categoryId", catId);
-	
-			utx.begin();
-			
-			query.executeUpdate();
-			
-			utx.commit();
-		}catch(Exception e) {
-			System.err.println(e);
-			try {
-			utx.rollback();
-			} catch (Exception e2) {
-				System.err.println(e2);
-			}
-		}
-	}
-	
-	public void deleteByCategoryTypeId(String categoryTypeId) {
-		try {
-			Query query = em.createNamedQuery(Element.DELETE_BY_ID).setParameter("categoryId", categoryTypeId);
-	
-			utx.begin();
-			
-			query.executeUpdate();
-			
-			utx.commit();
-		}catch(Exception e) {
-			System.err.println(e);
-			try {
-			utx.rollback();
-			} catch (Exception e2) {
-				System.err.println(e2);
-			}
-		}
-	}
 	
 	public void saveElement(Element element) {
 		try {

@@ -6,11 +6,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.model.SelectItem;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 
-import pl.agh.soa.entity.Category;
 import pl.agh.soa.faces.CategoryTypeService;
 
 @ManagedBean(name = "deleteCategoryType")
@@ -49,21 +45,9 @@ public class DeleteCategoryTypeManagedBean {
 	}
 
 	public void submit() {
-		EntityManager em = Persistence.createEntityManagerFactory("Projekt_1").createEntityManager();
-
-		Query q = em.createQuery("FROM Category WHERE categoryTypeId = " + categoryTypeId, Category.class);
-		List<Category> cs = q.getResultList();
-
-		Query deleteQuery2 = em.createQuery("DELETE FROM Category WHERE categoryTypeId = " + categoryTypeId);
+		categoryTypeService.deleteById(Integer.parseInt(this.categoryTypeId));
 		
-
-		Query deleteQuery3 = em.createQuery("DELETE FROM CategoryType WHERE categoryTypeId = " + categoryTypeId);
-		em.getTransaction().begin();
-		cs.stream().forEach(c -> em.createQuery("DELETE Element WHERE categoryId = " + c.getId()).executeUpdate());
-		deleteQuery2.executeUpdate();
-		deleteQuery3.executeUpdate();
-		em.getTransaction().commit();
-
+		message = "Usuniêto";
 	}
 
 }

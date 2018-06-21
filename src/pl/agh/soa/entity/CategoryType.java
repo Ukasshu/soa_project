@@ -1,8 +1,15 @@
 package pl.agh.soa.entity;
 
 import java.io.Serializable;
-import java.lang.String;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: CategoryType
@@ -38,7 +45,6 @@ public class CategoryType implements Serializable {
 		this.id = id;
 	}
 
-	@Column(unique = true)
 	public String getCategoryName() {
 		return this.categoryName;
 	}

@@ -1,13 +1,21 @@
 package pl.agh.soa.faces.view;
 
 import javax.faces.bean.ManagedBean;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+import javax.faces.bean.ManagedProperty;
 
 import pl.agh.soa.entity.CategoryType;
+import pl.agh.soa.faces.CategoryTypeService;
 
 @ManagedBean(name = "createCategoryType")
 public class CreateCategoryTypeManagedBean {
+	
+	@ManagedProperty(value="#{categoryTypeService}")
+	private CategoryTypeService categoryTypeService;
+	
+	public void setCategoryTypeService(CategoryTypeService categoryTypeService) {
+		this.categoryTypeService = categoryTypeService;
+	}
+	
 	
 	private String message="";
 
@@ -67,27 +75,22 @@ public class CreateCategoryTypeManagedBean {
 
 	public void submit() {
 		
-		EntityManager em = Persistence.createEntityManagerFactory("Projekt_1").createEntityManager();
+		
 		CategoryType ct = new CategoryType();
 		ct.setCategoryName(this.categoryName);
 		ct.setDataName(this.dataName);
 		ct.setElementName(this.elementName);
 		ct.setElementData1Name(this.elementData1Name);
 		ct.setElementData2Name(this.elementData2Name);
-		try {
-			em.getTransaction().begin();
-			em.persist(ct);
-			em.getTransaction().commit();
-			message = "Dodano kategoriê";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			this.categoryName = "";
-			this.dataName = "";
-			this.elementName = "";
-			this.elementData1Name = "";
-			this.elementData2Name = "";
-		}
+		
+		categoryTypeService.saveCategoryType(ct);
+		
+		this.categoryName = "";
+		this.dataName = "";
+		this.elementName = "";
+		this.elementData1Name = "";
+		this.elementData2Name = "";
+		
+		this.message = "Dodano";
 	}
 }

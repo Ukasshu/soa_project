@@ -33,7 +33,7 @@
 					<f:ajax listener="#{deleteElement.categoryChanged}" render="deleteElement"/>
 				</h:selectOneMenu>
 				<br/>
-				<h:selectOneMenu value="#{deleteElement.categoryId}">
+				<h:selectOneMenu value="#{deleteElement.elementId}">
 					<f:selectItems value="#{deleteElement.elements}" />
 				</h:selectOneMenu>
 				<h:commandButton action="#{deleteElement.submit}" value="Usuń instancję elementu" />

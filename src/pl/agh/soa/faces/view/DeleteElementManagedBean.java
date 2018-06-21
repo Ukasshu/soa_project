@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -15,41 +16,41 @@ import pl.agh.soa.faces.ElementService;
 
 @ManagedBean(name = "deleteElement")
 public class DeleteElementManagedBean {
-	
-	@ManagedProperty(value="#{categoryTypeService}")
+
+	@ManagedProperty(value = "#{categoryTypeService}")
 	private CategoryTypeService categoryTypeService;
-	
-	@ManagedProperty(value="#{categoryService}")
+
+	@ManagedProperty(value = "#{categoryService}")
 	private CategoryService categoryService;
-	
-	@ManagedProperty(value="#{elementService}")
+
+	@ManagedProperty(value = "#{elementService}")
 	private ElementService elementService;
-	
+
 	public void setCategoryTypeService(CategoryTypeService categoryTypeService) {
 		this.categoryTypeService = categoryTypeService;
 	}
-	
+
 	public void setCategoryService(CategoryService categoryService) {
 		this.categoryService = categoryService;
 	}
-	
+
 	public void setElementService(ElementService elementService) {
 		this.elementService = elementService;
 	}
-	
 
 	private String message;
 
 	private String categoryTypeId;
 	private String categoryId;
 	private String elementId;
-	
-	{
-		if(getCategoryTypes().size()>0) {
-			categoryTypeId = (String)getCategoryTypes().get(0).getValue();
-			if(getCategories().size()>0) {
-				categoryId = (String)getCategories().get(0).getValue();
-				if (getElements().size()>0) {
+
+	@PostConstruct
+	public void init() {
+		if (getCategoryTypes().size() > 0) {
+			categoryTypeId = (String) getCategoryTypes().get(0).getValue();
+			if (getCategories().size() > 0) {
+				categoryId = (String) getCategories().get(0).getValue();
+				if (getElements().size() > 0) {
 					elementId = (String) getElements().get(0).getValue();
 				}
 			}
@@ -89,37 +90,52 @@ public class DeleteElementManagedBean {
 	}
 
 	public List<SelectItem> getCategoryTypes() {
-		return categoryTypeService.getAllCategoryTypes().stream().map(c -> new SelectItem(Integer.toString(c.getId()), c.getCategoryName()))
+		return categoryTypeService.getAllCategoryTypes().stream()
+				.map(c -> new SelectItem(Integer.toString(c.getId()), c.getCategoryName()))
 				.collect(Collectors.toList());
 
 	}
 
 	public List<SelectItem> getCategories() {
-		return categoryService.getCategoriesByUsername(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString()).stream()
-				.map(c -> new SelectItem(Integer.toString(c.getId()),
-						c.getCategoryType().getCategoryName() + " [id: " + c.getId() + ", "
-								+ c.getCategoryType().getDataName() + "= " + c.getData() + "]"))
-				.collect(Collectors.toList());
+		if (categoryTypeId != null) {
+			return categoryService
+					.getCategoriesByUsername(
+							FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString())
+					.stream()
+					.map(c -> new SelectItem(Integer.toString(c.getId()),
+							c.getCategoryType().getCategoryName() + " [id: " + c.getId() + ", "
+									+ c.getCategoryType().getDataName() + "= " + c.getData() + "]"))
+					.collect(Collectors.toList());
+		} else {
+			return null;
+		}
 	}
-	
+
 	public List<SelectItem> getElements() {
-		return elementService.getElementsByCategoryId(this.categoryId).stream().map(e -> new SelectItem(Integer.toString(e.getId()), e.getName()+" ["+e.getData1()+"/"+e.getData2()+"/"+e.getPower()+"]")).collect(Collectors.toList());
+		if (categoryId != null) {
+			return elementService.getElementsByCategoryId(Integer.parseInt(this.categoryId)).stream()
+					.map(e -> new SelectItem(Integer.toString(e.getId()),
+							e.getName() + " [" + e.getData1() + "/" + e.getData2() + "/" + e.getPower() + "]"))
+					.collect(Collectors.toList());
+		} else {
+			return null;
+		}
 	}
-	
+
 	public void categoryTypeChanged() {
-		
+
 	}
-	
+
 	public void categoryChanged() {
-		
+
 	}
-	
+
 	public void submit() {
-		
-		elementService.deleteById(this.elementId);
-				
-		message = "Usuniêto element " + new Date().toString(); 
-		
+
+		elementService.deleteById(Integer.parseInt(this.elementId));
+
+		message = "Usuniêto element " + new Date().toString();
+
 	}
 
 }
