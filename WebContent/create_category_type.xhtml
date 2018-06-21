@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</h:head>
+<h:body>
+	
+	<div>
+		<h:outputText value="#{createCategoryType.message}" style="color: red" />
+	</div>
+	
+	<a href="index.xhtml">MENU</a>
+	
+	<div
+		style="border: 5px solid black; margin-bottom: 3px; margin-top: 3px">
+		<h:panelGroup id="addCategoryType">
+			<h2>Dodaj kategorię</h2>
+			<h:form>
+				<label>Nazwa kategorii:</label>
+				<h:inputText value="#{createCategoryType.categoryName}" />
+				<br />
+				<label>Nazwa pola kategorii:</label>
+				<h:inputText value="#{createCategoryType.dataName}" />
+				<br />
+				<label>Nazwa elementu:</label>
+				<h:inputText value="#{createCategoryType.elementName}" />
+				<br />
+				<label>Nazwa pola nr 1 elementu:</label>
+				<h:inputText value="#{createCategoryType.elementData1Name}" />
+				<br />
+				<label>Nazwa pola nr 2 elementu:</label>
+				<h:inputText value="#{createCategoryType.elementData2Name}" />
+				<br />
+				<h:commandButton action="#{createCategoryType.submit()}"
+					value="Dodaj kategorię">
+					<f:ajax execute="@form" render="@all" />
+				</h:commandButton>
+			</h:form>
+		</h:panelGroup>
+	</div>
+	
+</h:body>
+</html>

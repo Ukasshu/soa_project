@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+
+	<div>
+		<h:outputText value="#{deleteElement.message}" style="color: red" />
+		<h:outputText value="#{request.remoteUser}" style="color: red" />
+	</div>
+
+	<a href="index.xhtml">MENU</a>
+	
+	<div
+		style="border: 5px solid black; margin-bottom: 3px; margin-top: 3px">
+		<h:panelGroup id="deleteElement">
+			<h2>Usuń instancję kategorii</h2>
+			<h:form>
+				<h:selectOneMenu value="#{deleteElement.categoryTypeId}">
+					<f:selectItems value="#{deleteElement.categoryTypes}" />
+					<f:ajax listener="#{deleteElement.categoryTypeChanged}" render="deleteElement"/>
+				</h:selectOneMenu>
+				<br/>
+				<h:selectOneMenu value="#{deleteElement.categoryId}">
+					<f:selectItems value="#{deleteElement.categories}" />
+					<f:ajax listener="#{deleteElement.categoryChanged}" render="deleteElement"/>
+				</h:selectOneMenu>
+				<br/>
+				<h:selectOneMenu value="#{deleteElement.categoryId}">
+					<f:selectItems value="#{deleteElement.elements}" />
+				</h:selectOneMenu>
+				<h:commandButton action="#{deleteElement.submit}" value="Usuń instancję elementu" />
+
+			</h:form>
+		</h:panelGroup>
+	</div>
+
+</h:body>
+</html>

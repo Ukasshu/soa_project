@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+
+	<div>
+		<h:outputText value="#{createElement.message}" style="color: red" />
+	</div>
+
+	<a href="index.xhtml">MENU</a>
+
+	<div
+		style="border: 5px solid black; margin-bottom: 3px; margin-top: 3px">
+		<h:panelGroup id="createElement">
+			<h2>Stwórz instancję elementu</h2>
+			<h:form>
+				<label>Typ kategorii:</label>
+				<h:selectOneMenu value="#{createElement.categoryTypeId}">
+					<f:selectItems value="#{createElement.categoryTypes}" />
+					<f:ajax listener="#{createElement.categoryTypeChanged()}"
+						render="crElemCt f1N f2N" />
+				</h:selectOneMenu>
+				<br />
+				<label>Kategoria:</label>
+				<h:selectOneMenu value="#{createElement.categoryId}" id="crElemCt">
+					<f:selectItems value="#{createElement.categories}" />
+					<f:ajax listener="#{createElement.categoryTypeChanged}"
+						render="createElement" />
+				</h:selectOneMenu>
+				<br />
+
+				<h:outputLabel value="Imię:" />
+				<h:inputText value="#{createElement.name}" />
+				<br />
+				<h:outputLabel value="#{createElement.field1Name}:" id="f1N" />
+				<h:inputText value="#{createElement.field1}" />
+				<br />
+				<h:outputLabel value="#{createElement.field2Name}:" id="f2N" />
+				<h:inputText value="#{createElement.field2}" />
+				<br />
+				<h:outputLabel value="Moc:" />
+				<h:inputText value="#{createElement.power}"
+					converterMessage="Only digits" />
+				<br />
+
+				<h:commandButton action="#{createElement.submit()}"
+					value="Stwórz instancję elementu"/>
+			</h:form>
+		</h:panelGroup>
+	</div>
+
+</h:body>
+</html>
